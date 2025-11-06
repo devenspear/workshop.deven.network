@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Deven's Vibe Coding Workshop | AI-Powered Development Showcase</title>
+    <title>Deven's Digital Workshop | AI-Powered Development Showcase</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Explore cutting-edge AI-powered applications built through rapid prototyping and vibe coding. Showcasing next-generation development tools and innovative solutions across multiple domains.">
@@ -13,20 +13,31 @@
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workshop.deven.network/">
-    <meta property="og:title" content="Deven's Vibe Coding Workshop | AI-Powered Development">
+    <meta property="og:title" content="Deven's Digital Workshop | AI-Powered Development">
     <meta property="og:description" content="Cutting-edge AI-powered applications built through rapid prototyping. Exploring the future of disruptive technology and AI-assisted development.">
     <meta property="og:image" content="https://workshop.deven.network/og-image.png">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://workshop.deven.network/">
-    <meta name="twitter:title" content="Deven's Vibe Coding Workshop | AI-Powered Development">
+    <meta name="twitter:title" content="Deven's Digital Workshop | AI-Powered Development">
     <meta name="twitter:description" content="Cutting-edge AI-powered applications built through rapid prototyping and vibe coding.">
     <meta name="twitter:image" content="https://workshop.deven.network/og-image.png">
     <meta name="twitter:creator" content="@devenspear">
 
-    <!-- Favicon -->
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="msapplication-TileColor" content="#0a0a0f">
+
+    <!-- iOS-Specific Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Deven's Digital Workshop">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Favicon & App Icons -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0f'/><circle cx='50' cy='35' r='8' fill='%2300d4ff'/><circle cx='30' cy='55' r='6' fill='%236366f1'/><circle cx='70' cy='55' r='6' fill='%238b5cf6'/><circle cx='50' cy='75' r='7' fill='%2300d4ff'/><path d='M 50 35 L 30 55 M 50 35 L 70 55 M 30 55 L 50 75 M 70 55 L 50 75' stroke='%236366f1' stroke-width='2' opacity='0.6'/><text x='50' y='25' font-family='monospace' font-size='18' fill='%2300d4ff' text-anchor='middle' font-weight='bold'>W</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%230a0a0f'/><circle cx='90' cy='63' r='14' fill='%2300d4ff'/><circle cx='54' cy='99' r='11' fill='%236366f1'/><circle cx='126' cy='99' r='11' fill='%238b5cf6'/><circle cx='90' cy='135' r='13' fill='%2300d4ff'/><path d='M 90 63 L 54 99 M 90 63 L 126 99 M 54 99 L 90 135 M 126 99 L 90 135' stroke='%236366f1' stroke-width='3' opacity='0.6'/></svg>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,6 +77,8 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -105,6 +118,20 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.8;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .particles {
@@ -732,9 +759,10 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
+        <canvas id="heroCanvas" class="hero-canvas"></canvas>
         <div class="particles" id="particles"></div>
         <div class="hero-content">
-            <h1>Deven's Vibe Coding Workshop</h1>
+            <h1>Deven's Digital Workshop</h1>
             <p class="subtitle">AI-Powered Innovation Lab</p>
             <p class="event-details">⚡ Rapid Prototyping | 🚀 Next-Gen Solutions | 🤖 AI-Assisted Development</p>
             <p class="tagline">Exploring the future of disruptive technology, health span, and the blockchain through rapid AI-assisted development. Building tomorrow's solutions, today.</p>
@@ -875,7 +903,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p><strong>Deven's Vibe Coding Workshop</strong></p>
+            <p><strong>Deven's Digital Workshop</strong></p>
             <p>AI-Powered Development | Emerging Technology | Rapid Prototyping</p>
             <p style="margin-top: 20px; opacity: 0.7;">Built with Claude Code | © 2025 Deven Spear</p>
         </div>
@@ -914,9 +942,246 @@
             }
         }
 
+        // 3D Holographic Grid Animation
+        function initHeroAnimation() {
+            const canvas = document.getElementById('heroCanvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, mouseX, mouseY;
+            let time = 0;
+            const isMobile = window.innerWidth <= 768;
+
+            function resize() {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Track mouse position
+            let targetMouseX = width / 2;
+            let targetMouseY = height / 2;
+            mouseX = targetMouseX;
+            mouseY = targetMouseY;
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                targetMouseX = e.clientX - rect.left;
+                targetMouseY = e.clientY - rect.top;
+            });
+
+            // Digital symbols for matrix effect
+            const symbols = ['0', '1', '{', '}', '<', '>', '/', '\\', '[', ']', '(', ')', 'λ', 'Σ', 'Δ', 'Π'];
+
+            // Create digital rain drops
+            const rainDrops = [];
+            const dropCount = isMobile ? 20 : 40;
+            for (let i = 0; i < dropCount; i++) {
+                rainDrops.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height - height,
+                    speed: 2 + Math.random() * 4,
+                    length: 10 + Math.random() * 20,
+                    symbols: Array(20).fill(0).map(() => symbols[Math.floor(Math.random() * symbols.length)])
+                });
+            }
+
+            // 3D Grid points
+            const gridPoints = [];
+            const gridSize = isMobile ? 8 : 15;
+            const gridSpacing = isMobile ? 80 : 60;
+            for (let x = -gridSize; x <= gridSize; x++) {
+                for (let z = -gridSize; z <= gridSize; z++) {
+                    gridPoints.push({
+                        x: x * gridSpacing,
+                        y: 0,
+                        z: z * gridSpacing
+                    });
+                }
+            }
+
+            // Floating digital elements
+            const floatingElements = [];
+            const floatingCount = isMobile ? 12 : 25;
+            for (let i = 0; i < floatingCount; i++) {
+                floatingElements.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    z: Math.random() * 500,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    vz: (Math.random() - 0.5) * 2,
+                    symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.05
+                });
+            }
+
+            function project3D(x, y, z, rotX, rotY) {
+                // Apply rotation
+                const cosX = Math.cos(rotX);
+                const sinX = Math.sin(rotX);
+                const cosY = Math.cos(rotY);
+                const sinY = Math.sin(rotY);
+
+                // Rotate around X axis
+                let y1 = y * cosX - z * sinX;
+                let z1 = y * sinX + z * cosX;
+
+                // Rotate around Y axis
+                let x1 = x * cosY - z1 * sinY;
+                let z2 = x * sinY + z1 * cosY;
+
+                // Perspective projection
+                const perspective = 600;
+                const scale = perspective / (perspective + z2);
+
+                return {
+                    x: x1 * scale + width / 2,
+                    y: y1 * scale + height / 2,
+                    scale: scale
+                };
+            }
+
+            function animate() {
+                time += 0.01;
+
+                // Clear with fade effect
+                ctx.fillStyle = 'rgba(10, 10, 15, 0.15)';
+                ctx.fillRect(0, 0, width, height);
+
+                // Smooth mouse following
+                mouseX += (targetMouseX - mouseX) * 0.05;
+                mouseY += (targetMouseY - mouseY) * 0.05;
+
+                // Calculate rotation based on mouse and time
+                const rotX = (mouseY / height - 0.5) * 0.3 + Math.sin(time * 0.5) * 0.2;
+                const rotY = (mouseX / width - 0.5) * 0.5 + time * 0.2;
+
+                // Draw 3D grid
+                ctx.strokeStyle = 'rgba(0, 212, 255, 0.15)';
+                ctx.lineWidth = 1;
+
+                // Draw grid lines
+                for (let i = 0; i < gridPoints.length; i++) {
+                    const point = gridPoints[i];
+                    const wave = Math.sin(point.x * 0.01 + time * 2) * 20 + Math.cos(point.z * 0.01 + time * 2) * 20;
+                    const projected = project3D(point.x, point.y + wave, point.z, rotX, rotY);
+
+                    if (projected.scale > 0.3 && projected.scale < 2) {
+                        // Draw connections to nearby points
+                        for (let j = i + 1; j < gridPoints.length; j++) {
+                            const other = gridPoints[j];
+                            const dx = point.x - other.x;
+                            const dz = point.z - other.z;
+                            const dist = Math.sqrt(dx * dx + dz * dz);
+
+                            if (dist < gridSpacing * 1.5) {
+                                const otherWave = Math.sin(other.x * 0.01 + time * 2) * 20 + Math.cos(other.z * 0.01 + time * 2) * 20;
+                                const otherProjected = project3D(other.x, other.y + otherWave, other.z, rotX, rotY);
+
+                                const gradient = ctx.createLinearGradient(
+                                    projected.x, projected.y,
+                                    otherProjected.x, otherProjected.y
+                                );
+                                gradient.addColorStop(0, `rgba(0, 212, 255, ${0.1 * projected.scale})`);
+                                gradient.addColorStop(1, `rgba(99, 102, 241, ${0.1 * otherProjected.scale})`);
+
+                                ctx.strokeStyle = gradient;
+                                ctx.beginPath();
+                                ctx.moveTo(projected.x, projected.y);
+                                ctx.lineTo(otherProjected.x, otherProjected.y);
+                                ctx.stroke();
+                            }
+                        }
+
+                        // Draw grid points
+                        ctx.fillStyle = `rgba(0, 212, 255, ${0.6 * projected.scale})`;
+                        ctx.beginPath();
+                        ctx.arc(projected.x, projected.y, 2 * projected.scale, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                // Draw digital rain
+                ctx.font = '14px monospace';
+                rainDrops.forEach(drop => {
+                    drop.y += drop.speed;
+                    if (drop.y > height + 100) {
+                        drop.y = -100;
+                        drop.x = Math.random() * width;
+                    }
+
+                    for (let i = 0; i < drop.symbols.length; i++) {
+                        const alpha = Math.max(0, 1 - (i / drop.symbols.length));
+                        const y = drop.y - i * 20;
+
+                        if (y > 0 && y < height) {
+                            ctx.fillStyle = `rgba(0, 212, 255, ${alpha * 0.3})`;
+                            ctx.fillText(drop.symbols[i], drop.x, y);
+                        }
+                    }
+                });
+
+                // Draw floating digital elements
+                floatingElements.forEach(el => {
+                    el.x += el.vx;
+                    el.y += el.vy;
+                    el.z += el.vz;
+                    el.rotation += el.rotationSpeed;
+
+                    // Wrap around edges
+                    if (el.x < 0) el.x = width;
+                    if (el.x > width) el.x = 0;
+                    if (el.y < 0) el.y = height;
+                    if (el.y > height) el.y = 0;
+                    if (el.z < -200) el.z = 500;
+                    if (el.z > 500) el.z = -200;
+
+                    const scale = 1 + el.z / 500;
+                    const alpha = Math.max(0, Math.min(1, 1 - Math.abs(el.z) / 500));
+
+                    ctx.save();
+                    ctx.translate(el.x, el.y);
+                    ctx.rotate(el.rotation);
+                    ctx.font = `${12 * scale}px monospace`;
+                    ctx.fillStyle = `rgba(99, 102, 241, ${alpha * 0.4})`;
+                    ctx.fillText(el.symbol, 0, 0);
+                    ctx.restore();
+                });
+
+                // Add hexagonal tech patterns
+                ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
+                ctx.lineWidth = 1;
+                const hexSize = 40;
+                for (let i = 0; i < 5; i++) {
+                    const x = (width / 4) * i + ((time * 50) % 100);
+                    const y = height / 2 + Math.sin(time + i) * 100;
+                    drawHexagon(ctx, x, y, hexSize + Math.sin(time * 2 + i) * 10);
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            function drawHexagon(ctx, x, y, size) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (Math.PI / 3) * i;
+                    const hx = x + size * Math.cos(angle);
+                    const hy = y + size * Math.sin(angle);
+                    if (i === 0) ctx.moveTo(hx, hy);
+                    else ctx.lineTo(hx, hy);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+
+            animate();
+        }
+
         // Enhanced intersection observer for staggered animations
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            initHeroAnimation();
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
